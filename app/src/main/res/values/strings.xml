@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">AutoRepair</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_fields">Empty Fields Are not Allowed !!</string>
+    <string name="password_is_not_matching">Password is not matching</string>
+    <string name="type_your_email">Type your Email</string>
+    <string name="type_your_password">Type your Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="not_registered_yet">Not Registered Yet , Sign Up !</string>
+    <string name="retype_your_password">Retype Your Password</string>
+    <string name="already_registered">Already Registered , Sign In !</string>
+</resources>
