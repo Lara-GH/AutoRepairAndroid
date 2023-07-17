@@ -18,4 +18,8 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <style name="SpinnerStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@color/orange</item>
+    </style>
+
 </resources>

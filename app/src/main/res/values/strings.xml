@@ -9,4 +9,10 @@
     <string name="not_registered_yet">Not Registered Yet , Sign Up !</string>
     <string name="retype_your_password">Retype Your Password</string>
     <string name="already_registered">Already Registered , Sign In !</string>
+    <string name="add_your_car">Add your car</string>
+    <string name="add_car">add car</string>
+    <string name="year">Year</string>
+    <string name="make">Make</string>
+    <string name="model">Model</string>
+    <string name="engine">Engine</string>
 </resources>

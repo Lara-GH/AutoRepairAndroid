@@ -48,6 +48,7 @@ dependencies {
 
     // Firebase
     implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.2.2'
 
     // Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'

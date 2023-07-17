@@ -47,7 +47,7 @@ class SignInFragment : Fragment() {
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
                         binding?.root?.findNavController()?.navigate(
-                            R.id.action_signInFragment_to_homeFragment
+                            R.id.action_signInFragment_to_addCarFragment
                         )
                     } else {
                         Toast.makeText(requireContext(), it.exception.toString(), Toast.LENGTH_SHORT).show()
@@ -64,7 +64,7 @@ class SignInFragment : Fragment() {
 
         if (firebaseAuth.currentUser != null) {
             binding?.root?.findNavController()?.navigate(
-                R.id.action_signInFragment_to_homeFragment
+                R.id.action_signInFragment_to_addCarFragment
             )
         }
     }
