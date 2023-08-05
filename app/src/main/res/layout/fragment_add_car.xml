@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddCarFragment">
+    tools:context=".addcar.AddCarFragment">
 
     <ImageView
         android:id="@+id/car_image"
@@ -107,6 +107,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_car_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_car"
