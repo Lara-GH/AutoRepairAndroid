@@ -10,7 +10,7 @@
         android:id="@+id/car_image"
         android:layout_width="205dp"
         android:layout_height="152dp"
-        android:src="@drawable/car1"
+        android:src="@drawable/ic_car"
         android:layout_marginTop="150dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

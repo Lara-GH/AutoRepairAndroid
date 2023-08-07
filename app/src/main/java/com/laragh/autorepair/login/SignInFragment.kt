@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.laragh.autorepair.R
 import com.laragh.autorepair.databinding.FragmentSignInBinding
@@ -25,6 +26,7 @@ class SignInFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        hideBottomNavMenu()
         binding = FragmentSignInBinding.inflate(inflater, container, false)
         return binding?.root
     }
@@ -67,5 +69,10 @@ class SignInFragment : Fragment() {
                 R.id.action_signInFragment_to_addCarFragment
             )
         }
+    }
+
+    private fun hideBottomNavMenu(){
+        val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu)
+        navView.visibility = View.GONE
     }
 }

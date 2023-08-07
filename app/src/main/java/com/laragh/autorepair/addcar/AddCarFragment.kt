@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.laragh.autorepair.R
 import com.laragh.autorepair.databinding.FragmentAddCarBinding
 
@@ -18,6 +19,11 @@ class AddCarFragment : Fragment() {
     private var binding: FragmentAddCarBinding? = null
     private val viewModel: AddCarViewModel by lazy {
         ViewModelProvider(this)[AddCarViewModel::class.java]
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        hideBottomNavMenu()
     }
 
     override fun onCreateView(
@@ -30,6 +36,7 @@ class AddCarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initAddCarButton()
 
         viewModel.getYears()
@@ -94,5 +101,10 @@ class AddCarFragment : Fragment() {
         val textView = view?.findViewById<AutoCompleteTextView>(textView_)
         textView?.setAdapter(adapterEmpty)
         textView?.setText("", false)
+    }
+
+    private fun hideBottomNavMenu(){
+        val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu)
+        navView.visibility = View.GONE
     }
 }

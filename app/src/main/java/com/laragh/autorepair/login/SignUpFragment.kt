@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.laragh.autorepair.R
 import com.laragh.autorepair.databinding.FragmentSignUpBinding
@@ -19,6 +20,7 @@ class SignUpFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
+        hideBottomNavMenu()
     }
 
     override fun onCreateView(
@@ -62,5 +64,10 @@ class SignUpFragment : Fragment() {
                 Toast.makeText(requireContext(), R.string.empty_fields, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun hideBottomNavMenu(){
+        val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu)
+        navView.visibility = View.GONE
     }
 }
