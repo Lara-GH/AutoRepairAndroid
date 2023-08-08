@@ -1,9 +1,9 @@
-package com.laragh.autorepair.addcar
+package com.laragh.autorepair.models
 
 import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
-data class Car(
+data class CarItem(
     val engine: List<String>? = null,
-    val model: String? = null
+    val model: String? = null,
 )

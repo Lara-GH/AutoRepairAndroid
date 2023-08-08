@@ -3,10 +3,11 @@ package com.laragh.autorepair.addcar
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.laragh.autorepair.models.CarItem
 
 class AddCarRepository {
 
-    private var engines: MutableList<Car> = mutableListOf()
+    private var engines: MutableList<CarItem> = mutableListOf()
 
     fun getYears(liveData: MutableLiveData<List<String>>) {
         val years = Firebase.database.reference.child("year")
@@ -49,7 +50,7 @@ class AddCarRepository {
             if (it.exists()) {
 
                 for (snapshot in it.children) {
-                    val car: Car? = snapshot.getValue(Car::class.java)
+                    val car: CarItem? = snapshot.getValue(CarItem::class.java)
 
                     if (car?.model != null) {
                         list.add(car.model)

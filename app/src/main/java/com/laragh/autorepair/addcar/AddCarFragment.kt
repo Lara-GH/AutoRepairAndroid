@@ -8,11 +8,17 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.laragh.autorepair.R
+import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentAddCarBinding
+import com.laragh.autorepair.models.Car
 
 class AddCarFragment : Fragment() {
 
@@ -20,6 +26,8 @@ class AddCarFragment : Fragment() {
     private val viewModel: AddCarViewModel by lazy {
         ViewModelProvider(this)[AddCarViewModel::class.java]
     }
+    private val userViewModel: UserViewModel by activityViewModels()
+    var list = mutableListOf<Car>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +44,11 @@ class AddCarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        userViewModel.getCars()
+        userViewModel.getUserCarsLiveData.observe(viewLifecycleOwner) { cars ->
+            list = cars as MutableList<Car>
+        }
 
         initAddCarButton()
 
@@ -56,6 +69,17 @@ class AddCarFragment : Fragment() {
 
     private fun initAddCarButton() {
         binding?.addCarButton?.setOnClickListener {
+            val car = Car(
+                binding!!.engineFilled.text.toString(),
+                binding!!.makeFilled.text.toString(),
+                binding!!.modelFilled.text.toString(),
+                binding!!.yearFilled.text.toString()
+            )
+            list.add(car)
+            userViewModel.selectCar(car)
+            val userID = FirebaseAuth.getInstance().currentUser!!.uid
+            Firebase.database.reference.child("users").child(userID).setValue(list)
+
             binding?.root?.findNavController()?.navigate(
                 R.id.action_addCarFragment_to_homeFragment
             )
@@ -103,7 +127,7 @@ class AddCarFragment : Fragment() {
         textView?.setText("", false)
     }
 
-    private fun hideBottomNavMenu(){
+    private fun hideBottomNavMenu() {
         val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu)
         navView.visibility = View.GONE
     }
