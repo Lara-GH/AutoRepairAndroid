@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/newsFragment"
+    <item android:id="@+id/homeFragment"
         android:title=""
         android:icon="@drawable/ic_home"/>
 
-    <item android:id="@+id/searchFragment"
+    <item android:id="@+id/carsFragment"
         android:title=""
         android:icon="@drawable/car"/>
 
-    <item android:id="@+id/favoriteFragment"
+    <item android:id="@+id/settingsFragment"
         android:title=""
         android:icon="@drawable/ic_settings"/>
 </menu>

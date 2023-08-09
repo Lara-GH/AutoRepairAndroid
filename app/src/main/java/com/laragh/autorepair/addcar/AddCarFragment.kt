@@ -70,10 +70,11 @@ class AddCarFragment : Fragment() {
     private fun initAddCarButton() {
         binding?.addCarButton?.setOnClickListener {
             val car = Car(
-                binding!!.engineFilled.text.toString(),
+                binding!!.yearFilled.text.toString(),
                 binding!!.makeFilled.text.toString(),
                 binding!!.modelFilled.text.toString(),
-                binding!!.yearFilled.text.toString()
+                binding!!.engineFilled.text.toString()
+
             )
             list.add(car)
             userViewModel.selectCar(car)

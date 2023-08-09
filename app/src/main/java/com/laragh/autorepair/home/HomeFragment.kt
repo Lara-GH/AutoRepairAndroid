@@ -1,5 +1,6 @@
-package com.laragh.autorepair
+package com.laragh.autorepair.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.laragh.autorepair.R
+import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentHomeBinding
 import com.squareup.picasso.Picasso
 
@@ -31,8 +34,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userViewModel.selectedCar.observe(viewLifecycleOwner){
-            it.make?.let { it1 -> getCarLogo(it1.lowercase()) }
+        userViewModel.selectedCar.observe(viewLifecycleOwner) {
+            if (it != null) {
+                fillTextView(it.year!!, it.make!!, it.model!!, it.engine!!)
+                getCarLogo(it.make.lowercase())
+            }
         }
     }
 
@@ -42,6 +48,12 @@ class HomeFragment : Fragment() {
             .placeholder(R.drawable.ic_car_gray)
             .error(R.drawable.ic_car_gray)
             .into(binding?.imageCarLogo)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun fillTextView(year: String, make: String, model: String, engine: String) {
+        binding?.textMakeModel?.text = ("$make  $model")
+        binding?.textEngineYear?.text = ("$engine  $year")
     }
 
     private fun showBottomNavMenu() {
