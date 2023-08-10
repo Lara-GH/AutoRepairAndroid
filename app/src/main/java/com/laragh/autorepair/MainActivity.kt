@@ -5,9 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.laragh.autorepair.databinding.ActivityMainBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,11 +13,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            binding.bottomNavMenu.setupWithNavController(
-                navController = binding.navHostFragment.findNavController()
-            )
-        }
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        binding.bottomNavMenu.setupWithNavController(
+            navController = binding.navHostFragment.findNavController()
+        )
     }
 }

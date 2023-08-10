@@ -44,7 +44,10 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_carsFragment3"
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_carsFragment"
             app:destination="@id/carsFragment" />
     </fragment>
     <fragment
@@ -53,12 +56,16 @@
         android:label="fragment_cars"
         tools:layout="@layout/fragment_cars" >
         <action
-            android:id="@+id/action_carsFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            android:id="@+id/action_carsFragment_to_addCarFragment"
+            app:destination="@id/addCarFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.laragh.autorepair.settings.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_addCarFragment"
+            app:destination="@id/addCarFragment"/>
+    </fragment>
 </navigation>

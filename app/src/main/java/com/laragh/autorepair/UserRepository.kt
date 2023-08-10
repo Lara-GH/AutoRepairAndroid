@@ -8,8 +8,8 @@ import com.laragh.autorepair.models.Car
 
 class UserRepository {
 
+    private val userID = FirebaseAuth.getInstance().currentUser!!.uid
     fun getUserCars(liveData: MutableLiveData<List<Car>>){
-        val userID = FirebaseAuth.getInstance().currentUser!!.uid
         Firebase.database.reference.child("users").child(userID).get().addOnSuccessListener {
             val list = mutableListOf<Car>()
             if (it.exists()) {
@@ -22,5 +22,10 @@ class UserRepository {
                 liveData.postValue(list)
             }
         }
+    }
+
+    fun addCar(car: Car, int: String, liveData: MutableLiveData<List<Car>>){
+        Firebase.database.reference.child("users").child(userID).child(int).setValue(car)
+        getUserCars(liveData)
     }
 }

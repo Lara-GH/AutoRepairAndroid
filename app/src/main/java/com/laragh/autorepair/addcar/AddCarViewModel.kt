@@ -3,6 +3,8 @@ package com.laragh.autorepair.addcar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.laragh.autorepair.UserRepository
+import com.laragh.autorepair.models.Car
 
 class AddCarViewModel : ViewModel() {
 
@@ -33,5 +35,25 @@ class AddCarViewModel : ViewModel() {
 
     fun getEngines(model: String){
         repository.getEngines(model, mutableGetEnginesLiveData)
+    }
+
+    private val userRepository = UserRepository()
+
+    private val mutableGetUserCarsLiveData: MutableLiveData<List<Car>> = MutableLiveData()
+    val getUserCarsLiveData: LiveData<List<Car>> get() = mutableGetUserCarsLiveData
+
+    private val mutableSelectedCar = MutableLiveData<Car>()
+    val selectedCar: LiveData<Car> get() = mutableSelectedCar
+
+    fun getUserCars() {
+        userRepository.getUserCars(mutableGetUserCarsLiveData)
+    }
+
+    fun selectCar(car: Car) {
+        mutableSelectedCar.value = car
+    }
+
+    fun addCar(car: Car, int: String){
+        userRepository.addCar(car, int, mutableGetUserCarsLiveData)
     }
 }

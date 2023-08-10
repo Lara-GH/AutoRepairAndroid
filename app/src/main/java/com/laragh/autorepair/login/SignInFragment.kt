@@ -42,7 +42,7 @@ class SignInFragment : Fragment() {
 
         binding?.signInButton?.setOnClickListener {
             val email = binding?.emailEt?.text.toString()
-            val pass = binding?.passET?.text.toString()
+            val pass = binding?.passwordEt?.text.toString()
 
             if (email.isNotEmpty() && pass.isNotEmpty()) {
 

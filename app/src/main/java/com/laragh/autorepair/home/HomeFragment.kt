@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso
 class HomeFragment : Fragment() {
 
     private var binding: FragmentHomeBinding? = null
-    private val userViewModel: UserViewModel by activityViewModels()
+    private val viewModel: UserViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +34,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userViewModel.selectedCar.observe(viewLifecycleOwner) {
-            if (it != null) {
-                fillTextView(it.year!!, it.make!!, it.model!!, it.engine!!)
-                getCarLogo(it.make.lowercase())
-            }
+        val selectedCar = viewModel.selectedCar.value
+        if (selectedCar!=null){
+            fillTextView(selectedCar.year!!, selectedCar.make!!, selectedCar.model!!, selectedCar.engine!!)
+            getCarLogo(selectedCar.make.lowercase())
         }
     }
 

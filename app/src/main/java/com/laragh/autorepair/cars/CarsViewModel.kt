@@ -1,11 +1,12 @@
-package com.laragh.autorepair
+package com.laragh.autorepair.cars
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.laragh.autorepair.UserRepository
 import com.laragh.autorepair.models.Car
 
-class UserViewModel: ViewModel() {
+class CarsViewModel : ViewModel() {
 
     private val repository = UserRepository()
 

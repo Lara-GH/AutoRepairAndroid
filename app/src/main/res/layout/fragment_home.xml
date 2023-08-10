@@ -7,14 +7,14 @@
     tools:context=".home.HomeFragment">
 
     <ImageView
-        android:id="@+id/imageCarLogo"
+        android:id="@+id/image_car_logo"
         android:layout_width="185dp"
         android:layout_height="185dp"
-        android:src="@drawable/ic_car_gray"
+        android:src="@drawable/ic_car_gray_extrasmall"
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/text_make_model"
@@ -23,7 +23,7 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageCarLogo"/>
+        app:layout_constraintTop_toBottomOf="@+id/image_car_logo"/>
 
     <TextView
         android:id="@+id/text_engine_year"

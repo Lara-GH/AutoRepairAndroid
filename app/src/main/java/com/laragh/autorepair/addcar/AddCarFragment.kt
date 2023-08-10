@@ -9,12 +9,8 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.laragh.autorepair.R
 import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentAddCarBinding
@@ -23,11 +19,8 @@ import com.laragh.autorepair.models.Car
 class AddCarFragment : Fragment() {
 
     private var binding: FragmentAddCarBinding? = null
-    private val viewModel: AddCarViewModel by lazy {
-        ViewModelProvider(this)[AddCarViewModel::class.java]
-    }
+    private val viewModel: AddCarViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
-    var list = mutableListOf<Car>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +37,6 @@ class AddCarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        userViewModel.getCars()
-        userViewModel.getUserCarsLiveData.observe(viewLifecycleOwner) { cars ->
-            list = cars as MutableList<Car>
-        }
-
         initAddCarButton()
 
         viewModel.getYears()
@@ -74,13 +61,15 @@ class AddCarFragment : Fragment() {
                 binding!!.makeFilled.text.toString(),
                 binding!!.modelFilled.text.toString(),
                 binding!!.engineFilled.text.toString()
-
             )
-            list.add(car)
-            userViewModel.selectCar(car)
-            val userID = FirebaseAuth.getInstance().currentUser!!.uid
-            Firebase.database.reference.child("users").child(userID).setValue(list)
 
+            val list = viewModel.getUserCarsLiveData.value
+            if (!list.isNullOrEmpty()) {
+                viewModel.addCar(car, list.size.toString())
+            } else {
+                viewModel.addCar(car, "0")
+            }
+            userViewModel.selectCar(car)
             binding?.root?.findNavController()?.navigate(
                 R.id.action_addCarFragment_to_homeFragment
             )

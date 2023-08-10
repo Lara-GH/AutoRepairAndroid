@@ -15,4 +15,5 @@
     <string name="make">Make</string>
     <string name="model">Model</string>
     <string name="engine">Engine</string>
+    <string name="cars">Cars</string>
 </resources>
