@@ -38,6 +38,7 @@ class AddCarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAddCarButton()
+        initCloseButton()
 
         viewModel.getYears()
         viewModel.getYearsLiveData.observe(viewLifecycleOwner) { years ->
@@ -70,6 +71,14 @@ class AddCarFragment : Fragment() {
                 viewModel.addCar(car, "0")
             }
             userViewModel.selectCar(car)
+            binding?.root?.findNavController()?.navigate(
+                R.id.action_addCarFragment_to_homeFragment
+            )
+        }
+    }
+
+    private fun initCloseButton() {
+        binding?.closeButton?.setOnClickListener {
             binding?.root?.findNavController()?.navigate(
                 R.id.action_addCarFragment_to_homeFragment
             )
