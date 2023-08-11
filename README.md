@@ -1,3 +1,11 @@
 # AutoRepair
-AutoRepair - an android application for simplify the communication of customers with the car service.
+The application is under development.
+The application is developed using:
+- Firebase Authentication
+- Firebase Realtime Database
+- MVVM
+- Navigation
+- Coroutines
+- Picasso
+
 ![Screenshot](https://github.com/Lara-GH/AutoRepair/blob/master/screenshots.png)
