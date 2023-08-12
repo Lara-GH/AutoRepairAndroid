@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.laragh.autorepair.utils.Permissions
 import com.laragh.autorepair.R
 import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentHomeBinding
@@ -17,6 +19,9 @@ class HomeFragment : Fragment() {
 
     private var binding: FragmentHomeBinding? = null
     private val viewModel: UserViewModel by activityViewModels()
+    private val requestMultiplePermissions = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +40,22 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val selectedCar = viewModel.selectedCar.value
-        if (selectedCar!=null){
-            fillTextView(selectedCar.year!!, selectedCar.make!!, selectedCar.model!!, selectedCar.engine!!)
+        if (selectedCar != null) {
+            fillTextView(
+                selectedCar.year!!,
+                selectedCar.make!!,
+                selectedCar.model!!,
+                selectedCar.engine!!
+            )
             getCarLogo(selectedCar.make.lowercase())
         }
+        initAddPhotoButton()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun fillTextView(year: String, make: String, model: String, engine: String) {
+        binding?.textMakeModel?.text = ("$make  $model")
+        binding?.textEngineYear?.text = ("$engine  $year")
     }
 
     private fun getCarLogo(logo: String) {
@@ -49,10 +66,10 @@ class HomeFragment : Fragment() {
             .into(binding?.imageCarLogo)
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun fillTextView(year: String, make: String, model: String, engine: String) {
-        binding?.textMakeModel?.text = ("$make  $model")
-        binding?.textEngineYear?.text = ("$engine  $year")
+    private fun initAddPhotoButton() {
+        binding?.addPhotoButton?.setOnClickListener {
+            Permissions(requireContext(), requestMultiplePermissions).checkPermissions()
+        }
     }
 
     private fun showBottomNavMenu() {

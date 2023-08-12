@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.laragh.autorepair.R
+import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentCarsBinding
 import com.laragh.autorepair.models.Car
 
@@ -17,6 +18,7 @@ class CarsFragment : Fragment() {
     private var binding: FragmentCarsBinding? = null
     lateinit var carsAdapter: CarsAdapter
     private val viewModel: CarsViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -38,6 +40,14 @@ class CarsFragment : Fragment() {
             carsAdapter.differ.submitList(cars as MutableList<Car>)
         }
         addCarButton()
+
+        carsAdapter.setOnItemClickListener {
+            userViewModel.selectCar(it)
+            binding?.root?.findNavController()?.popBackStack()
+            binding?.root?.findNavController()?.navigate(
+                R.id.action_signInFragment_to_homeFragment
+            )
+        }
     }
 
     private fun initAdapter() {

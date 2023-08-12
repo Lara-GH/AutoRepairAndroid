@@ -16,4 +16,9 @@
     <string name="model">Model</string>
     <string name="engine">Engine</string>
     <string name="cars">Cars</string>
+    <string name="what_repair_do_you_need">What repair do you need?</string>
+    <string name="send_to_shop">Send to shop</string>
+    <string name="add_photo_of_damage">Add photo of damage</string>
+    <string name="permissions_granted">CAMERA and MEDIA permissions granted</string>
+    <string name="you_need_to_accept_permissions">You need to accept CAMERA and MEDIA permissions to add a photo</string>
 </resources>
