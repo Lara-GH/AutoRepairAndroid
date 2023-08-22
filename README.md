@@ -6,6 +6,6 @@ The application is developed using:
 - MVVM
 - Navigation
 - Coroutines
-- Picasso
+- Glide
 
 ![Screenshot](https://github.com/Lara-GH/AutoRepair/blob/master/screenshots.png)
