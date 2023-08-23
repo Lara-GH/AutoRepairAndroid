@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_signInFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_photoFragment"
+            app:destination="@id/photoFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -52,6 +55,9 @@
         <action
             android:id="@+id/action_homeFragment_to_carsFragment"
             app:destination="@id/carsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_photoFragment"
+            app:destination="@id/photoFragment" />
     </fragment>
     <fragment
         android:id="@+id/carsFragment"
@@ -70,5 +76,14 @@
         <action
             android:id="@+id/action_settingsFragment_to_addCarFragment"
             app:destination="@id/addCarFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/photoFragment"
+        android:name="com.laragh.autorepair.photo.PhotoFragment"
+        android:label="fragment_photo"
+        tools:layout="@layout/fragment_photo" >
+        <action
+            android:id="@+id/action_photoFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>
