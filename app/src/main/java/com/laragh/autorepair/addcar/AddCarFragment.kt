@@ -109,7 +109,6 @@ class AddCarFragment : Fragment() {
                 clear(R.id.engine_filled)
                 viewModel.getEngines(autoCompleteTextView.text.toString())
             }
-
             Toast.makeText(
                 requireContext(),
                 "Clicked item : ${autoCompleteTextView.text}",

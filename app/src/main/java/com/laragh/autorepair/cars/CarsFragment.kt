@@ -17,11 +17,7 @@ class CarsFragment : Fragment() {
 
     private var binding: FragmentCarsBinding? = null
     lateinit var carsAdapter: CarsAdapter
-    private val viewModel: CarsViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +31,8 @@ class CarsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initAdapter()
-        viewModel.getUserCars()
-        viewModel.getUserCarsLiveData.observe(viewLifecycleOwner) { cars ->
+        userViewModel.getUserCars()
+        userViewModel.getUserCarsLiveData.observe(viewLifecycleOwner) { cars ->
             carsAdapter.differ.submitList(cars as MutableList<Car>)
         }
         addCarButton()

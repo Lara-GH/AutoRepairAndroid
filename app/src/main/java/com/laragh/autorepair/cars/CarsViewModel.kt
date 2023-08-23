@@ -13,18 +13,7 @@ class CarsViewModel : ViewModel() {
     private val mutableGetUserCarsLiveData: MutableLiveData<List<Car>> = MutableLiveData()
     val getUserCarsLiveData: LiveData<List<Car>> get() = mutableGetUserCarsLiveData
 
-    private val mutableSelectedCar = MutableLiveData<Car>()
-    val selectedCar: LiveData<Car> get() = mutableSelectedCar
-
     fun getUserCars() {
         repository.getUserCars(mutableGetUserCarsLiveData)
-    }
-
-    fun selectCar(car: Car) {
-        mutableSelectedCar.value = car
-    }
-
-    fun addCar(car: Car, int: String){
-        repository.addCar(car, int, mutableGetUserCarsLiveData)
     }
 }

@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.laragh.autorepair.R
 import com.laragh.autorepair.databinding.ItemCarBinding
 import com.laragh.autorepair.models.Car
-import com.squareup.picasso.Picasso
 import okhttp3.internal.lowercase
 
 class CarsAdapter: RecyclerView.Adapter<CarsAdapter.CarsViewHolder>() {
@@ -49,7 +49,7 @@ class CarsAdapter: RecyclerView.Adapter<CarsAdapter.CarsViewHolder>() {
     override fun onBindViewHolder(holder: CarsViewHolder, position: Int) {
         val car = differ.currentList[position]
         holder.itemView.apply {
-            Picasso.get()
+            Glide.with(context)
                 .load("https://www.carlogos.org/car-logos/${car.make?.lowercase()}-logo.png")
                 .placeholder(R.drawable.ic_car_gray_extrasmall)
                 .error(R.drawable.ic_car_gray_extrasmall)
