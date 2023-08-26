@@ -27,11 +27,6 @@ class HomeFragment : Fragment() {
         ActivityResultContracts.RequestMultiplePermissions()
     ) {}
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        showBottomNavMenu()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,6 +38,7 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showBottomNavMenu()
 
         val selectedCar = viewModel.selectedCar.value
         if (selectedCar != null) {

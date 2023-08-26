@@ -84,6 +84,6 @@
         tools:layout="@layout/fragment_photo" >
         <action
             android:id="@+id/action_photoFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:popUpTo="@id/homeFragment"/>
     </fragment>
 </navigation>

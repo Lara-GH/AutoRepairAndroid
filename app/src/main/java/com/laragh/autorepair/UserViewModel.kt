@@ -5,12 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.laragh.autorepair.models.Car
 
-class UserViewModel: ViewModel() {
+open class UserViewModel: ViewModel() {
 
     private val repository = UserRepository()
 
     private val mutableGetUserCarsLiveData: MutableLiveData<List<Car>> = MutableLiveData()
-    val getUserCarsLiveData: LiveData<List<Car>> get() = mutableGetUserCarsLiveData
+    open val getUserCarsLiveData: LiveData<List<Car>> get() = mutableGetUserCarsLiveData
 
     private val mutableSelectedCar = MutableLiveData<Car>()
     val selectedCar: LiveData<Car> get() = mutableSelectedCar
@@ -23,7 +23,7 @@ class UserViewModel: ViewModel() {
         mutableSelectedCar.value = car
     }
 
-    fun addCar(car: Car, int: String){
+    open fun addCar(car: Car, int: String){
         repository.addCar(car, int, mutableGetUserCarsLiveData)
     }
 }

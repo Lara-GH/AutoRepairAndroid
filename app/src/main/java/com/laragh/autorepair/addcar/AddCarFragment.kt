@@ -41,6 +41,7 @@ class AddCarFragment : Fragment() {
         initCloseButton()
 
         viewModel.getYears()
+        userViewModel.getUserCars()
         viewModel.getYearsLiveData.observe(viewLifecycleOwner) { years ->
             autoCompleteTextView(years, R.id.year_filled)
         }
@@ -64,11 +65,11 @@ class AddCarFragment : Fragment() {
                 binding!!.engineFilled.text.toString()
             )
 
-            val list = viewModel.getUserCarsLiveData.value
+            val list = userViewModel.getUserCarsLiveData.value
             if (!list.isNullOrEmpty()) {
-                viewModel.addCar(car, list.size.toString())
+                userViewModel.addCar(car, list.size.toString())
             } else {
-                viewModel.addCar(car, "0")
+                userViewModel.addCar(car, "0")
             }
             userViewModel.selectCar(car)
             binding?.root?.findNavController()?.navigate(
@@ -92,22 +93,22 @@ class AddCarFragment : Fragment() {
         autoCompleteTextView?.setAdapter(adapter)
         autoCompleteTextView?.setOnItemClickListener { parent, view, position, id ->
 
-            if (textView == R.id.year_filled) {
-                clear(R.id.make_filled)
-                clear(R.id.model_filled)
-                clear(R.id.engine_filled)
-                viewModel.getMakes(autoCompleteTextView.text.toString())
-            }
-
-            if (textView == R.id.make_filled) {
-                clear(R.id.model_filled)
-                clear(R.id.engine_filled)
-                viewModel.getModels(autoCompleteTextView.text.toString())
-            }
-
-            if (textView == R.id.model_filled) {
-                clear(R.id.engine_filled)
-                viewModel.getEngines(autoCompleteTextView.text.toString())
+            when (textView) {
+                R.id.year_filled -> {
+                    clear(R.id.make_filled)
+                    clear(R.id.model_filled)
+                    clear(R.id.engine_filled)
+                    viewModel.getMakes(autoCompleteTextView.text.toString())
+                }
+                R.id.make_filled -> {
+                    clear(R.id.model_filled)
+                    clear(R.id.engine_filled)
+                    viewModel.getModels(autoCompleteTextView.text.toString())
+                }
+                R.id.model_filled -> {
+                    clear(R.id.engine_filled)
+                    viewModel.getEngines(autoCompleteTextView.text.toString())
+                }
             }
             Toast.makeText(
                 requireContext(),
