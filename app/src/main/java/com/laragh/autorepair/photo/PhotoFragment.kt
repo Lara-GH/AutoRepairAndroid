@@ -8,15 +8,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.laragh.autorepair.BaseFragment
 import com.laragh.autorepair.R
 import com.laragh.autorepair.databinding.FragmentPhotoBinding
 
-class PhotoFragment : Fragment() {
-
-    private var binding: FragmentPhotoBinding? = null
+class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
     private lateinit var photoAdapter: PhotoAdapter
     private lateinit var mutableList: MutableList<CardViewItem>
@@ -28,12 +26,11 @@ class PhotoFragment : Fragment() {
         mutableList = mutableListOf(CardViewItem(CardViewItem.EMPTY_TYPE, myUri))
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentPhotoBinding.inflate(inflater, container, false)
-        return binding?.root
+    override fun inflateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentPhotoBinding {
+        return FragmentPhotoBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,8 +45,8 @@ class PhotoFragment : Fragment() {
     }
 
     private fun initCloseButton() {
-        binding?.closeButton?.setOnClickListener {
-            binding?.root?.findNavController()?.navigate(
+        binding.closeButton.setOnClickListener {
+            binding.root.findNavController().navigate(
                 R.id.action_photoFragment_to_homeFragment
             )
         }
@@ -107,7 +104,7 @@ class PhotoFragment : Fragment() {
             { position -> deleteItem(position) },
             { openGallery() }
         )
-        binding?.recyclerView?.apply {
+        binding.recyclerView.apply {
             adapter = photoAdapter
         }
     }

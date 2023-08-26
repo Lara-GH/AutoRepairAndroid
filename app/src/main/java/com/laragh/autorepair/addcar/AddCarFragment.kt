@@ -7,32 +7,29 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.laragh.autorepair.BaseFragment
 import com.laragh.autorepair.R
 import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentAddCarBinding
 import com.laragh.autorepair.models.Car
 
-class AddCarFragment : Fragment() {
+class AddCarFragment : BaseFragment<FragmentAddCarBinding>() {
 
-    private var binding: FragmentAddCarBinding? = null
     private val viewModel: AddCarViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
+    override fun inflateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentAddCarBinding {
+        return FragmentAddCarBinding.inflate(inflater, container, false)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         hideBottomNavMenu()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentAddCarBinding.inflate(inflater, container, false)
-        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,12 +54,12 @@ class AddCarFragment : Fragment() {
     }
 
     private fun initAddCarButton() {
-        binding?.addCarButton?.setOnClickListener {
+        binding.addCarButton.setOnClickListener {
             val car = Car(
-                binding!!.yearFilled.text.toString(),
-                binding!!.makeFilled.text.toString(),
-                binding!!.modelFilled.text.toString(),
-                binding!!.engineFilled.text.toString()
+                binding.yearFilled.text.toString(),
+                binding.makeFilled.text.toString(),
+                binding.modelFilled.text.toString(),
+                binding.engineFilled.text.toString()
             )
 
             val list = userViewModel.getUserCarsLiveData.value
@@ -72,15 +69,15 @@ class AddCarFragment : Fragment() {
                 userViewModel.addCar(car, "0")
             }
             userViewModel.selectCar(car)
-            binding?.root?.findNavController()?.navigate(
+            binding.root.findNavController().navigate(
                 R.id.action_addCarFragment_to_homeFragment
             )
         }
     }
 
     private fun initCloseButton() {
-        binding?.closeButton?.setOnClickListener {
-            binding?.root?.findNavController()?.navigate(
+        binding.closeButton.setOnClickListener {
+            binding.root.findNavController().navigate(
                 R.id.action_addCarFragment_to_homeFragment
             )
         }

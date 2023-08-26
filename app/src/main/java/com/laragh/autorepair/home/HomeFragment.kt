@@ -8,31 +8,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.laragh.autorepair.BaseFragment
 import com.laragh.autorepair.R
 import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentHomeBinding
 import com.laragh.autorepair.utils.Permissions
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
-    private var binding: FragmentHomeBinding? = null
-    private val mBinding get() = binding!!
     private val viewModel: UserViewModel by activityViewModels()
     private val requestMultiplePermissions = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) {}
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding?.root
+    override fun inflateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentHomeBinding {
+        return FragmentHomeBinding.inflate(inflater, container, false)
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -55,8 +52,8 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun fillTextView(year: String, make: String, model: String, engine: String) {
-        binding?.textMakeModel?.text = ("$make  $model")
-        binding?.textEngineYear?.text = ("$engine  $year")
+        binding.textMakeModel.text = ("$make  $model")
+        binding.textEngineYear.text = ("$engine  $year")
     }
 
     private fun getCarLogo(logo: String) {
@@ -64,15 +61,15 @@ class HomeFragment : Fragment() {
             .load("https://www.carlogos.org/car-logos/$logo-logo.png")
             .placeholder(R.drawable.ic_car_gray)
             .error(R.drawable.ic_car_gray)
-            .into(mBinding.imageCarLogo)
+            .into(binding.imageCarLogo)
     }
 
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun initAddPhotoButton() {
-        binding?.addPhotoButton?.setOnClickListener {
+        binding.addPhotoButton.setOnClickListener {
             if (Permissions(requireContext(), requestMultiplePermissions).checkPermissions()) {
-                binding?.root?.findNavController()?.navigate(
+                binding.root.findNavController().navigate(
                     R.id.action_homeFragment_to_photoFragment
                 )
             }
