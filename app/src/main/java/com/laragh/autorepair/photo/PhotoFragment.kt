@@ -70,20 +70,20 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
+            val size = mutableList.size
             if (data?.clipData != null) {
                 val x = data.clipData!!.itemCount
                 for (i in 0 until x) {
                     mutableList.add(
+                        size - 1,
                         CardViewItem(
                             CardViewItem.IMAGE_TYPE,
                             data.clipData!!.getItemAt(i).uri
                         )
                     )
-
                 }
             } else if (data?.data != null) {
                 val imgUrl = data.data!!
-                val size = mutableList.size
                 mutableList.add(size - 1, CardViewItem(CardViewItem.IMAGE_TYPE, imgUrl))
             }
             photoAdapter.setItems(mutableList)
