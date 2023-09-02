@@ -8,16 +8,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.laragh.autorepair.BaseFragment
 import com.laragh.autorepair.R
+import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentPhotoBinding
 
 class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
     private lateinit var photoAdapter: PhotoAdapter
     private lateinit var mutableList: MutableList<CardViewItem>
+    private val userViewModel: UserViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +40,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         super.onViewCreated(view, savedInstanceState)
         initCloseButton()
         initAdapter()
+        setAttachButtonColor()
     }
 
     private fun hideBottomNavMenu() {
@@ -88,6 +92,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
             }
             photoAdapter.setItems(mutableList)
         }
+        setAttachButtonColor()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -95,6 +100,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         if (::mutableList.isInitialized && ::photoAdapter.isInitialized) {
             mutableList.removeAt(position)
             photoAdapter.setItems(mutableList)
+            setAttachButtonColor()
         }
     }
 
@@ -106,6 +112,28 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         )
         binding.recyclerView.apply {
             adapter = photoAdapter
+        }
+    }
+
+    private fun setAttachButtonColor() {
+        if (mutableList.size > 1) {
+            println("orange")
+            binding.attachButton.setBackgroundColor(resources.getColor(R.color.orange))
+            binding.attachButton.isClickable = true
+            initAttachButton()
+        } else {
+            println("gray")
+            binding.attachButton.setBackgroundColor(resources.getColor(R.color.gray))
+            binding.attachButton.isClickable = false
+        }
+    }
+
+    private fun initAttachButton() {
+        binding.attachButton.setOnClickListener {
+            userViewModel.setPhotosList(mutableList)
+            binding.root.findNavController().navigate(
+                R.id.action_photoFragment_to_homeFragment
+            )
         }
     }
 }

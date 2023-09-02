@@ -23,4 +23,5 @@
     <string name="you_need_to_accept_permissions">You need to accept CAMERA and MEDIA permissions to add a photo</string>
     <string name="photos">Photos</string>
     <string name="clicked_item">Clicked item : </string>
+    <string name="attach">attach</string>
 </resources>

@@ -1,6 +1,6 @@
 package com.laragh.autorepair.home
 
-import android.annotation.SuppressLint
+import android .annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,7 +20,7 @@ import com.laragh.autorepair.utils.Permissions
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
-    private val viewModel: UserViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
     private val requestMultiplePermissions = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) {}
@@ -37,7 +37,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.onViewCreated(view, savedInstanceState)
         showBottomNavMenu()
 
-        val selectedCar = viewModel.selectedCar.value
+        val selectedCar = userViewModel.selectedCar.value
         if (selectedCar != null) {
             fillTextView(
                 selectedCar.year!!,
@@ -67,6 +67,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun initAddPhotoButton() {
+        if ((!userViewModel.getPhotosListLiveData.value.isNullOrEmpty())){
+            binding.addPhotoButton.setBackgroundColor(resources.getColor(R.color.green))
+        }
+        userViewModel.getPhotosListLiveData.value
         binding.addPhotoButton.setOnClickListener {
             if (Permissions(requireContext(), requestMultiplePermissions).checkPermissions()) {
                 binding.root.findNavController().navigate(

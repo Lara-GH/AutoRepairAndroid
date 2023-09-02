@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.laragh.autorepair.UserRepository
+import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.models.Car
 
-class AddCarViewModel : ViewModel() {
+class AddCarViewModel : UserViewModel() {
 
     private val repository = AddCarRepository()
 
@@ -37,11 +38,11 @@ class AddCarViewModel : ViewModel() {
         repository.getEngines(model, mutableGetEnginesLiveData)
     }
 
-    private val userRepository = UserRepository()
-    private val mutableGetUserCarsLiveData: MutableLiveData<List<Car>> = MutableLiveData()
-    val getUserCarsLiveData: LiveData<List<Car>> get() = mutableGetUserCarsLiveData
-
-    fun addCar(car: Car, int: String){
-        userRepository.addCar(car, int, mutableGetUserCarsLiveData)
-    }
+//    private val userRepository = UserRepository()
+//    private val mutableGetUserCarsLiveData: MutableLiveData<List<Car>> = MutableLiveData()
+//    override val getUserCarsLiveData: LiveData<List<Car>> get() = mutableGetUserCarsLiveData
+//
+//    override fun addCar(car: Car, int: String){
+//        userRepository.addCar(car, int, mutableGetUserCarsLiveData)
+//    }
 }
