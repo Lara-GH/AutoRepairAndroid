@@ -8,5 +8,6 @@ data class Car(
     val make: String? = null,
     val model: String? = null,
     val engine: String? = null,
+    var addedPhotos: Boolean = false,
     var id: String = ""
 )

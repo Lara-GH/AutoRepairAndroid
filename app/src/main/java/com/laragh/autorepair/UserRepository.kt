@@ -10,8 +10,9 @@ import com.laragh.autorepair.utils.Constants.USER
 class UserRepository {
 
     private val userID = FirebaseAuth.getInstance().currentUser!!.uid
+    private val ref = Firebase.database.reference.child(USER).child(userID)
     fun getUserCars(liveData: MutableLiveData<List<Car>>) {
-        Firebase.database.reference.child(USER).child(userID).get().addOnSuccessListener {
+        ref.get().addOnSuccessListener {
             val list = mutableListOf<Car>()
             if (it.exists()) {
                 for (snapshot in it.children) {
@@ -26,9 +27,13 @@ class UserRepository {
     }
 
     fun addCar(car: Car, liveData: MutableLiveData<List<Car>>) {
-        val newRef = Firebase.database.reference.child(USER).child(userID).push()
+        val newRef = ref.push()
         car.id = newRef.key.toString()
         newRef.setValue(car)
         getUserCars(liveData)
+    }
+
+    fun addedPhoto(addedPhotos: Boolean, carID: String){
+        ref.child(carID).child("addedPhotos").setValue(addedPhotos)
     }
 }

@@ -144,18 +144,19 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
     private fun saveInStorage() {
         val storageRef = Firebase.storage(STORAGE_URL).reference
         val userID = FirebaseAuth.getInstance().currentUser!!.uid
+        val carID = userViewModel.selectedCar.value!!.id
         for (i in 0..mutableList.size - 2) {
             val photoUri = mutableList[i].uri!!
             val photosRef: StorageReference =
                 storageRef.child(PHOTOS).child(userID)
-                    .child(userViewModel.selectedCar.value!!.id)
+                    .child(carID)
                     .child(photoUri.pathSegments.last())
 
             val uploadTask = photosRef.putFile(photoUri)
             uploadTask.addOnFailureListener {
 
             }.addOnSuccessListener {
-
+                userViewModel.addedPhoto(true, carID, userViewModel.selectedCar.value!!)
             }
         }
     }

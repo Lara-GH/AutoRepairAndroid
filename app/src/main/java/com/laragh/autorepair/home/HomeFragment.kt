@@ -1,6 +1,6 @@
 package com.laragh.autorepair.home
 
-import android .annotation.SuppressLint
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -65,12 +65,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun initAddPhotoButton() {
-        if ((!userViewModel.getPhotosListLiveData.value.isNullOrEmpty())){
-            binding.addPhotoButton.setBackgroundColor(resources.getColor(R.color.green))
+
+        userViewModel.selectedCar.observe(this ) {
+            if (it.addedPhotos){
+                binding.addPhotoButton.setIconResource(R.drawable.done)
+                binding.addPhotoButton.setIconTintResource(R.color.green)
+                binding.addPhotoButton.setText(R.string.photos_added)
+                binding.addPhotoButton.setTextColor(resources.getColor(R.color.green))
+            }
         }
-        userViewModel.getPhotosListLiveData.value
         binding.addPhotoButton.setOnClickListener {
             if (Permissions(requireContext(), requestMultiplePermissions).checkPermissions()) {
                 binding.root.findNavController().navigate(
