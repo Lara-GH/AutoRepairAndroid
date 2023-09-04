@@ -7,5 +7,6 @@ data class Car(
     val year: String? = null,
     val make: String? = null,
     val model: String? = null,
-    val engine: String? = null
+    val engine: String? = null,
+    var id: String = ""
 )

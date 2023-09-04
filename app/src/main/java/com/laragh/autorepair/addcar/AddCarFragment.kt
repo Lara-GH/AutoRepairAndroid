@@ -1,5 +1,6 @@
 package com.laragh.autorepair.addcar
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,7 @@ class AddCarFragment : BaseFragment<FragmentAddCarBinding>() {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun initAddCarButton() {
         binding.addCarButton.setOnClickListener {
             val car = Car(
@@ -62,13 +64,9 @@ class AddCarFragment : BaseFragment<FragmentAddCarBinding>() {
                 binding.engineFilled.text.toString()
             )
 
-            val list = userViewModel.getUserCarsLiveData.value
-            if (!list.isNullOrEmpty()) {
-                userViewModel.addCar(car, list.size.toString())
-            } else {
-                userViewModel.addCar(car, "0")
-            }
-            userViewModel.selectCar(car)
+                userViewModel.addCar(car)
+                userViewModel.selectCar(car)
+
             binding.root.findNavController().navigate(
                 R.id.action_addCarFragment_to_homeFragment
             )

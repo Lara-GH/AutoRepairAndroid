@@ -27,11 +27,7 @@ open class UserViewModel: ViewModel() {
         mutableSelectedCar.value = car
     }
 
-    open fun addCar(car: Car, int: String){
-        repository.addCar(car, int, mutableGetUserCarsLiveData)
-    }
-
-    fun setPhotosList(list: List<CardViewItem>){
-        mutablePhotosListLiveData.value = list
+    open fun addCar(car: Car){
+        repository.addCar(car, mutableGetUserCarsLiveData)
     }
 }

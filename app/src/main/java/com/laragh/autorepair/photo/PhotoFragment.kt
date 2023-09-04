@@ -11,10 +11,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import com.laragh.autorepair.BaseFragment
 import com.laragh.autorepair.R
 import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentPhotoBinding
+import com.laragh.autorepair.utils.Constants.PHOTOS
+import com.laragh.autorepair.utils.Constants.STORAGE_URL
 
 class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
@@ -117,12 +123,10 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
     private fun setAttachButtonColor() {
         if (mutableList.size > 1) {
-            println("orange")
             binding.attachButton.setBackgroundColor(resources.getColor(R.color.orange))
             binding.attachButton.isClickable = true
             initAttachButton()
         } else {
-            println("gray")
             binding.attachButton.setBackgroundColor(resources.getColor(R.color.gray))
             binding.attachButton.isClickable = false
         }
@@ -130,10 +134,29 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
     private fun initAttachButton() {
         binding.attachButton.setOnClickListener {
-            userViewModel.setPhotosList(mutableList)
+            saveInStorage()
             binding.root.findNavController().navigate(
                 R.id.action_photoFragment_to_homeFragment
             )
+        }
+    }
+
+    private fun saveInStorage() {
+        val storageRef = Firebase.storage(STORAGE_URL).reference
+        val userID = FirebaseAuth.getInstance().currentUser!!.uid
+        for (i in 0..mutableList.size - 2) {
+            val photoUri = mutableList[i].uri!!
+            val photosRef: StorageReference =
+                storageRef.child(PHOTOS).child(userID)
+                    .child(userViewModel.selectedCar.value!!.id)
+                    .child(photoUri.pathSegments.last())
+
+            val uploadTask = photosRef.putFile(photoUri)
+            uploadTask.addOnFailureListener {
+
+            }.addOnSuccessListener {
+
+            }
         }
     }
 }

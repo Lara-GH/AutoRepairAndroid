@@ -25,8 +25,10 @@ class UserRepository {
         }
     }
 
-    fun addCar(car: Car, int: String, liveData: MutableLiveData<List<Car>>) {
-        Firebase.database.reference.child(USER).child(userID).child(int).setValue(car)
+    fun addCar(car: Car, liveData: MutableLiveData<List<Car>>) {
+        val newRef = Firebase.database.reference.child(USER).child(userID).push()
+        car.id = newRef.key.toString()
+        newRef.setValue(car)
         getUserCars(liveData)
     }
 }

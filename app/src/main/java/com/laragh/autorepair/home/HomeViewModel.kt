@@ -24,7 +24,7 @@ class HomeViewModel: ViewModel() {
         mutableSelectedCar.value = car
     }
 
-    fun addCar(car: Car, int: String){
-        repository.addCar(car, int, mutableGetUserCarsLiveData)
+    fun addCar(car: Car){
+        repository.addCar(car, mutableGetUserCarsLiveData)
     }
 }
