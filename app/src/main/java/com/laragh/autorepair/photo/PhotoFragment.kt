@@ -13,7 +13,9 @@ import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.component1
 import com.google.firebase.storage.ktx.storage
 import com.laragh.autorepair.BaseFragment
 import com.laragh.autorepair.R
@@ -21,6 +23,7 @@ import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentPhotoBinding
 import com.laragh.autorepair.utils.Constants.PHOTOS
 import com.laragh.autorepair.utils.Constants.STORAGE_URL
+import java.net.URLDecoder
 
 class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
@@ -47,6 +50,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         initCloseButton()
         initAdapter()
         setAttachButtonColor()
+        if (userViewModel.selectedCar.value!!.addedPhotos) downloadPhotosFromStorage()
     }
 
     private fun hideBottomNavMenu() {
@@ -87,14 +91,14 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
                     mutableList.add(
                         size - 1,
                         CardViewItem(
-                            CardViewItem.IMAGE_TYPE,
+                            CardViewItem.URI_TYPE,
                             data.clipData!!.getItemAt(i).uri
                         )
                     )
                 }
             } else if (data?.data != null) {
                 val imgUrl = data.data!!
-                mutableList.add(size - 1, CardViewItem(CardViewItem.IMAGE_TYPE, imgUrl))
+                mutableList.add(size - 1, CardViewItem(CardViewItem.URI_TYPE, imgUrl))
             }
             photoAdapter.setItems(mutableList)
         }
@@ -134,30 +138,53 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
     private fun initAttachButton() {
         binding.attachButton.setOnClickListener {
-            saveInStorage()
+            uploadToStorage()
             binding.root.findNavController().navigate(
                 R.id.action_photoFragment_to_homeFragment
             )
         }
     }
 
-    private fun saveInStorage() {
+    private fun uploadToStorage() {
         val storageRef = Firebase.storage(STORAGE_URL).reference
         val userID = FirebaseAuth.getInstance().currentUser!!.uid
         val carID = userViewModel.selectedCar.value!!.id
         for (i in 0..mutableList.size - 2) {
-            val photoUri = mutableList[i].uri!!
-            val photosRef: StorageReference =
-                storageRef.child(PHOTOS).child(userID)
-                    .child(carID)
-                    .child(photoUri.pathSegments.last())
+            if (mutableList[i].uri != null) {
+                val photoUri = mutableList[i].uri!!
+                val photosRef: StorageReference =
+                    storageRef.child(PHOTOS).child(userID)
+                        .child(carID)
+                        .child(photoUri.pathSegments.last())
 
-            val uploadTask = photosRef.putFile(photoUri)
-            uploadTask.addOnFailureListener {
+                val uploadTask = photosRef.putFile(photoUri)
+                uploadTask.addOnFailureListener {
 
-            }.addOnSuccessListener {
-                userViewModel.addedPhoto(true, carID, userViewModel.selectedCar.value!!)
+                }.addOnSuccessListener {
+                    userViewModel.addedPhoto(true, carID, userViewModel.selectedCar.value!!)
+                }
             }
         }
+    }
+
+    private fun downloadPhotosFromStorage() {
+        val storageRef = Firebase.storage(STORAGE_URL).reference
+        val userID = FirebaseAuth.getInstance().currentUser!!.uid
+        val carID = userViewModel.selectedCar.value!!.id
+        val photosRef: StorageReference = storageRef.child(PHOTOS).child(userID).child(carID)
+        val storage = FirebaseStorage.getInstance()
+
+        photosRef.listAll()
+            .addOnSuccessListener { (items) ->
+                for (item in items) {
+                    val decodedItem = URLDecoder.decode(item.toString(), "UTF-8")
+                    val photoRef = storage.getReferenceFromUrl(decodedItem)
+                    mutableList.add(
+                        mutableList.size - 1,
+                        CardViewItem(CardViewItem.STORAGE_REFERENCE_TYPE, null, photoRef)
+                    )
+                }
+                photoAdapter.setItems(mutableList)
+            }
     }
 }
