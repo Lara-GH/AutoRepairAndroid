@@ -1,4 +1,4 @@
-package com.laragh.autorepair.settings
+package com.laragh.autorepair.user.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -30,9 +30,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     private fun addCarButton(){
         binding.button.setOnClickListener {
             binding.root.findNavController().popBackStack()
-            binding.root.findNavController().navigate(
-                R.id.action_signInFragment_to_addCarFragment
-            )
+//            binding.root.findNavController().navigate(
+//                R.id.action_signInFragment_to_addCarFragment
+//            )
         }
     }
 }

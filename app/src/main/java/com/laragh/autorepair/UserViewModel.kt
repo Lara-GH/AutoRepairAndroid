@@ -3,9 +3,9 @@ package com.laragh.autorepair
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.laragh.autorepair.models.Car
+import com.laragh.autorepair.user.models.Car
 
-open class UserViewModel: ViewModel() {
+open class UserViewModel : ViewModel() {
 
     private val repository = UserRepository()
 
@@ -14,6 +14,9 @@ open class UserViewModel: ViewModel() {
 
     private val mutableSelectedCar = MutableLiveData<Car>()
     val selectedCar: LiveData<Car> get() = mutableSelectedCar
+
+    private val mutableAccessLevel = MutableLiveData<String>()
+    val accessLevel: LiveData<String> get() = mutableAccessLevel
 
     fun getUserCars() {
         repository.getUserCars(mutableGetUserCarsLiveData)
@@ -29,7 +32,15 @@ open class UserViewModel: ViewModel() {
         repository.addedPhoto(addedPhotos, carID)
     }
 
-    open fun addCar(car: Car){
+    open fun addCar(car: Car) {
         repository.addCar(car, mutableGetUserCarsLiveData)
+    }
+
+    fun checkUserAccessLevel(){
+         repository.checkUserAccessLevel(mutableAccessLevel)
+    }
+
+    fun createUser(){
+        repository.createUser()
     }
 }

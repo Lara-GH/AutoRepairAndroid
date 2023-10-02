@@ -1,4 +1,4 @@
-package com.laragh.autorepair.cars
+package com.laragh.autorepair.user.cars
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.laragh.autorepair.BaseFragment
 import com.laragh.autorepair.R
 import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentCarsBinding
-import com.laragh.autorepair.models.Car
+import com.laragh.autorepair.user.models.Car
 
 class CarsFragment : BaseFragment<FragmentCarsBinding>() {
 
@@ -39,7 +39,7 @@ class CarsFragment : BaseFragment<FragmentCarsBinding>() {
             userViewModel.selectCar(it)
             binding.root.findNavController().popBackStack()
             binding.root.findNavController().navigate(
-                R.id.action_signInFragment_to_homeFragment
+                R.id.action_addCarFragment_to_homeFragment
             )
         }
     }
@@ -55,9 +55,6 @@ class CarsFragment : BaseFragment<FragmentCarsBinding>() {
     private fun addCarButton() {
         binding.buttonAddCar.setOnClickListener {
             binding.root.findNavController().popBackStack()
-            binding.root.findNavController().navigate(
-                R.id.action_signInFragment_to_addCarFragment
-            )
         }
     }
 }

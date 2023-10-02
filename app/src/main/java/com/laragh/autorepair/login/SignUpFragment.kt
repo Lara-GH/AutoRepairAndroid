@@ -5,20 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.laragh.autorepair.BaseFragment
 import com.laragh.autorepair.R
+import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentSignUpBinding
 
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
     private lateinit var firebaseAuth: FirebaseAuth
+    private val userViewModel: UserViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
-        hideBottomNavMenu()
     }
 
     override fun inflateViewBinding(
@@ -32,9 +32,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.textviewAlreadyRegistered.setOnClickListener {
-            binding.root.findNavController().navigate(
-                R.id.action_signUpFragment_to_signInFragment
-            )
+            requireActivity().supportFragmentManager.beginTransaction().add(R.id.container, SignInFragment()).commit()
         }
 
         binding.signUpButton.setOnClickListener {
@@ -47,9 +45,8 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
                     firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            binding.root.findNavController().navigate(
-                                R.id.action_signUpFragment_to_signInFragment
-                            )
+                            userViewModel.createUser()
+                            requireActivity().supportFragmentManager.beginTransaction().add(R.id.container, SignInFragment()).commit()
                         } else {
                             Toast.makeText(
                                 requireContext(),
@@ -69,10 +66,5 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
                 Toast.makeText(requireContext(), R.string.empty_fields, Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun hideBottomNavMenu() {
-        val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu)
-        navView.visibility = View.GONE
     }
 }

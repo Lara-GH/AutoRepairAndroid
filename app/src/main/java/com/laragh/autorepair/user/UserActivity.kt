@@ -1,17 +1,17 @@
-package com.laragh.autorepair
+package com.laragh.autorepair.user
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.laragh.autorepair.databinding.ActivityMainBinding
+import com.laragh.autorepair.databinding.ActivityUserBinding
 
-class MainActivity : AppCompatActivity() {
+class UserActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityUserBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 

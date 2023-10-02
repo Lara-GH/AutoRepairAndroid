@@ -1,4 +1,4 @@
-package com.laragh.autorepair.models
+package com.laragh.autorepair.user.models
 
 import com.google.firebase.database.IgnoreExtraProperties
 

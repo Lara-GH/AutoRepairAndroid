@@ -1,4 +1,4 @@
-package com.laragh.autorepair.cars
+package com.laragh.autorepair.user.cars
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.laragh.autorepair.R
 import com.laragh.autorepair.databinding.ItemCarBinding
-import com.laragh.autorepair.models.Car
+import com.laragh.autorepair.user.models.Car
 import okhttp3.internal.lowercase
 
 class CarsAdapter: RecyclerView.Adapter<CarsAdapter.CarsViewHolder>() {

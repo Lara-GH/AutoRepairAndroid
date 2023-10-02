@@ -1,20 +1,25 @@
 package com.laragh.autorepair.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.laragh.autorepair.BaseFragment
+import com.laragh.autorepair.user.UserActivity
 import com.laragh.autorepair.R
+import com.laragh.autorepair.UserViewModel
+import com.laragh.autorepair.admin.AdminActivity
 import com.laragh.autorepair.databinding.FragmentSignInBinding
+import com.laragh.autorepair.mechanic.MechanicActivity
 
 class SignInFragment : BaseFragment<FragmentSignInBinding>() {
 
     private lateinit var firebaseAuth: FirebaseAuth
+    private val userViewModel: UserViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
@@ -29,11 +34,8 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hideBottomNavMenu()
         binding.textviewNotRegistered.setOnClickListener {
-            binding.root.findNavController().navigate(
-                R.id.action_signInFragment_to_signUpFragment
-            )
+            requireActivity().supportFragmentManager.beginTransaction().add(R.id.container, SignUpFragment()).commit()
         }
 
         binding.signInButton.setOnClickListener {
@@ -41,12 +43,9 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
             val pass = binding.passwordEt.text.toString()
 
             if (email.isNotEmpty() && pass.isNotEmpty()) {
-
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        binding.root.findNavController().navigate(
-                            R.id.action_signInFragment_to_addCarFragment
-                        )
+                       checkUserAccessLevel()
                     } else {
                         Toast.makeText(
                             requireContext(),
@@ -63,16 +62,25 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
 
     override fun onStart() {
         super.onStart()
-
         if (firebaseAuth.currentUser != null) {
-            binding.root.findNavController().navigate(
-                R.id.action_signInFragment_to_addCarFragment
-            )
+            checkUserAccessLevel()
         }
     }
 
-    private fun hideBottomNavMenu() {
-        val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu)
-        navView.visibility = View.GONE
+    private fun checkUserAccessLevel(){
+        userViewModel.accessLevel.observe(viewLifecycleOwner) {
+            when (it) {
+                "user" -> {
+                    startActivity(Intent(activity, UserActivity::class.java))
+                }
+                "admin" -> {
+                    startActivity(Intent(activity, AdminActivity::class.java))
+                }
+                "mechanic" -> {
+                    startActivity(Intent(activity, MechanicActivity::class.java))
+                }
+            }
+        }
+        userViewModel.checkUserAccessLevel()
     }
 }

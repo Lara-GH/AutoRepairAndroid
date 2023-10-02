@@ -1,11 +1,8 @@
-package com.laragh.autorepair.addcar
+package com.laragh.autorepair.user.addcar
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.laragh.autorepair.UserRepository
 import com.laragh.autorepair.UserViewModel
-import com.laragh.autorepair.models.Car
 
 class AddCarViewModel : UserViewModel() {
 

@@ -1,4 +1,4 @@
-package com.laragh.autorepair.home
+package com.laragh.autorepair.user.home
 
 import android.annotation.SuppressLint
 import android.os.Build

@@ -1,4 +1,4 @@
-package com.laragh.autorepair.addcar
+package com.laragh.autorepair.user.addcar
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -15,7 +15,7 @@ import com.laragh.autorepair.BaseFragment
 import com.laragh.autorepair.R
 import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentAddCarBinding
-import com.laragh.autorepair.models.Car
+import com.laragh.autorepair.user.models.Car
 
 class AddCarFragment : BaseFragment<FragmentAddCarBinding>() {
 
@@ -28,13 +28,9 @@ class AddCarFragment : BaseFragment<FragmentAddCarBinding>() {
         return FragmentAddCarBinding.inflate(inflater, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        hideBottomNavMenu()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        hideBottomNavMenu()
         initAddCarButton()
         initCloseButton()
 
