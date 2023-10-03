@@ -1,5 +1,6 @@
 package com.laragh.autorepair.login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,9 +21,22 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
 
     private lateinit var firebaseAuth: FirebaseAuth
     private val userViewModel: UserViewModel by activityViewModels()
+    private var listener: IRouterLoginActivity? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is IRouterLoginActivity){
+            listener = context
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     override fun inflateViewBinding(
@@ -35,7 +49,8 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.textviewNotRegistered.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().add(R.id.container, SignUpFragment()).commit()
+            listener?.openSignUpFragment()
+//            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.container, SignUpFragment()).commit()
         }
 
         binding.signInButton.setOnClickListener {

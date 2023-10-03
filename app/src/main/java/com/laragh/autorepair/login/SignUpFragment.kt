@@ -32,7 +32,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.textviewAlreadyRegistered.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().add(R.id.container, SignInFragment()).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.container, SignInFragment()).commit()
         }
 
         binding.signUpButton.setOnClickListener {
@@ -46,7 +46,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
                     firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
                             userViewModel.createUser()
-                            requireActivity().supportFragmentManager.beginTransaction().add(R.id.container, SignInFragment()).commit()
+                            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.container, SignInFragment()).commit()
                         } else {
                             Toast.makeText(
                                 requireContext(),
