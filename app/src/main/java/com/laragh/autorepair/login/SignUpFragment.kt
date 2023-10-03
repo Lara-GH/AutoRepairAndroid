@@ -1,5 +1,6 @@
 package com.laragh.autorepair.login
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
     private lateinit var firebaseAuth: FirebaseAuth
     private val userViewModel: UserViewModel by activityViewModels()
+    private var listener: IRouterLoginActivity? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
@@ -28,11 +30,23 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         return FragmentSignUpBinding.inflate(inflater, container, false)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is IRouterLoginActivity){
+            listener = context
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.textviewAlreadyRegistered.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.container, SignInFragment()).commit()
+            listener?.openSignInFragment()
         }
 
         binding.signUpButton.setOnClickListener {
@@ -46,7 +60,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
                     firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
                             userViewModel.createUser()
-                            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.container, SignInFragment()).commit()
+                            listener?.openSignInFragment()
                         } else {
                             Toast.makeText(
                                 requireContext(),

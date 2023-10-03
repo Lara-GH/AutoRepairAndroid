@@ -5,8 +5,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.laragh.autorepair.R
 import com.laragh.autorepair.UserViewModel
@@ -49,7 +47,7 @@ class LoginActivity : AppCompatActivity(), IRouterLoginActivity {
         }
     }
 
-    private fun checkUserAccessLevel() {
+    fun checkUserAccessLevel() {
         userViewModel.accessLevel.observe(this) {
             when (it) {
                 "user" -> {
@@ -70,6 +68,10 @@ class LoginActivity : AppCompatActivity(), IRouterLoginActivity {
         supportTransaction(SignUpFragment())
     }
 
+    override fun openSignInFragment() {
+        supportTransaction(SignInFragment())
+    }
+
     private fun supportTransaction(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
     }
@@ -77,4 +79,5 @@ class LoginActivity : AppCompatActivity(), IRouterLoginActivity {
 
 interface IRouterLoginActivity {
     fun openSignUpFragment()
+    fun openSignInFragment()
 }
