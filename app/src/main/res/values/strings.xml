@@ -25,4 +25,5 @@
     <string name="clicked_item">Clicked item : </string>
     <string name="attach">attach</string>
     <string name="photos_added">Photos added</string>
+    <string name="photos_uploaded_successfully">Photos uploaded successfully</string>
 </resources>

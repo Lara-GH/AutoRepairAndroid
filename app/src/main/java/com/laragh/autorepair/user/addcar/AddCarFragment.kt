@@ -121,4 +121,12 @@ class AddCarFragment : BaseFragment<FragmentAddCarBinding>() {
         val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu)
         navView.visibility = View.GONE
     }
+
+    override fun onPause() {
+        super.onPause()
+        clear(R.id.year_filled)
+        clear(R.id.make_filled)
+        clear(R.id.model_filled)
+        clear(R.id.engine_filled)
+    }
 }

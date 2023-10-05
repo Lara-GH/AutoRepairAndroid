@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,6 +24,10 @@ import com.laragh.autorepair.UserViewModel
 import com.laragh.autorepair.databinding.FragmentPhotoBinding
 import com.laragh.autorepair.utils.Constants.PHOTOS
 import com.laragh.autorepair.utils.Constants.STORAGE_URL
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.net.URLDecoder
 
 class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
@@ -139,13 +144,11 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
     private fun initAttachButton() {
         binding.attachButton.setOnClickListener {
             uploadToStorage()
-            binding.root.findNavController().navigate(
-                R.id.action_photoFragment_to_homeFragment
-            )
         }
     }
 
     private fun uploadToStorage() {
+        binding.progressBar.visibility = View.VISIBLE
         val storageRef = Firebase.storage(STORAGE_URL).reference
         val userID = FirebaseAuth.getInstance().currentUser!!.uid
         val carID = userViewModel.selectedCar.value!!.id
@@ -162,6 +165,18 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
                 }.addOnSuccessListener {
                     userViewModel.addedPhoto(true, carID, userViewModel.selectedCar.value!!)
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.photos_uploaded_successfully,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        delay(1500)
+                        binding.root.findNavController().navigate(
+                            R.id.action_photoFragment_to_homeFragment
+                        )
+                    }
                 }
             }
         }
