@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.laragh.autorepair.BaseFragment
 import com.laragh.autorepair.R
 import com.laragh.autorepair.UserViewModel
@@ -96,9 +97,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.buttonNext.setOnClickListener {
             userViewModel.checkIfNameAndPhoneExist()
             userViewModel.ifNameAndPhoneExist.observe(this) {
-                if (it == "nameAndPhoneDoNotExist") {
-                    binding.root.findNavController()
-                        .navigate(R.id.action_homeFragment_to_addUserInfoFragment)
+                when (it) {
+                    "nameAndPhoneDoNotExist" -> {
+                        binding.root.findNavController()
+                            .navigate(R.id.action_homeFragment_to_addUserInfoFragment)
+                    }
+                    "nameAndPhoneExist" -> {
+                        userViewModel.createTask(binding.textDescription.text.toString())
+                        val builder = MaterialAlertDialogBuilder(requireContext())
+                        builder.setMessage(R.string.request_submitted)
+                        builder.setPositiveButton(R.string.ok){ _, _ ->}
+                        builder.show()
+                    }
                 }
             }
         }

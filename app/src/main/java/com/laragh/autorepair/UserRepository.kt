@@ -1,14 +1,19 @@
 package com.laragh.autorepair
 
+import android.annotation.SuppressLint
+import android.icu.text.SimpleDateFormat
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.laragh.autorepair.user.models.Car
+import com.laragh.autorepair.user.models.Task
 import com.laragh.autorepair.utils.Constants.CARS
 import com.laragh.autorepair.utils.Constants.NAME
 import com.laragh.autorepair.utils.Constants.PHONE
+import com.laragh.autorepair.utils.Constants.TASKS
 import com.laragh.autorepair.utils.Constants.USER
+import java.util.*
 
 class UserRepository {
 
@@ -77,5 +82,14 @@ class UserRepository {
 
     fun setUserPhone(phone: String){
         refUser.child(PHONE).setValue(phone)
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun createTask(carID: String, description: String){
+        val newRef = refUser.child(CARS).child(carID).child(TASKS).push()
+        val date = SimpleDateFormat("MM/dd/yyyy").format(Date())
+        val task = Task("", "new", date, description)
+        task.id = newRef.key.toString()
+        newRef.setValue(task)
     }
 }

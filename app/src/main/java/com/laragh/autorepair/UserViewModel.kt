@@ -39,23 +39,29 @@ open class UserViewModel : ViewModel() {
         repository.addCar(car, mutableGetUserCarsLiveData)
     }
 
-    fun checkUserAccessLevel(){
-         repository.checkUserAccessLevel(mutableAccessLevel)
+    fun checkUserAccessLevel() {
+        repository.checkUserAccessLevel(mutableAccessLevel)
     }
 
-    fun createUser(){
+    fun createUser() {
         repository.createUser()
     }
 
-    fun checkIfNameAndPhoneExist(){
+    fun checkIfNameAndPhoneExist() {
         repository.checkIfNameAndPhoneExist(mutableIfNameAndPhoneExist)
     }
 
-    fun setUserName(name: String){
+    fun setUserName(name: String) {
         repository.setUserName(name)
     }
 
-    fun setUserPhone(phone: String){
+    fun setUserPhone(phone: String) {
         repository.setUserPhone(phone)
+    }
+
+    fun createTask(description: String) {
+        mutableSelectedCar.value?.id?.let {
+            repository.createTask(it, description)
+        }
     }
 }

@@ -30,4 +30,6 @@
     <string name="name">Name</string>
     <string name="phone">Phone</string>
     <string name="next">Next</string>
+    <string name="request_submitted">The repair request has been submitted successfully. Wait for a response from the service center. It will take no more than 6 hours. If you have additional questions, you can use the chat.</string>
+    <string name="ok">OK</string>
 </resources>
