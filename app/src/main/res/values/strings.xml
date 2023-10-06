@@ -26,4 +26,8 @@
     <string name="attach">attach</string>
     <string name="photos_added">Photos added</string>
     <string name="photos_uploaded_successfully">Photos uploaded successfully</string>
+    <string name="enter_contact_information">Please enter your contact information to continue</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="next">Next</string>
 </resources>

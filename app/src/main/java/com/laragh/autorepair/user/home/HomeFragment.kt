@@ -48,6 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             getCarLogo(selectedCar.make.lowercase())
         }
         initAddPhotoButton()
+        initSendToShopButton()
     }
 
     @SuppressLint("SetTextI18n")
@@ -69,8 +70,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun initAddPhotoButton() {
 
-        userViewModel.selectedCar.observe(this ) {
-            if (it.addedPhotos){
+        userViewModel.selectedCar.observe(this) {
+            if (it.addedPhotos) {
                 binding.addPhotoButton.setIconResource(R.drawable.done)
                 binding.addPhotoButton.setIconTintResource(R.color.green)
                 binding.addPhotoButton.setText(R.string.photos_added)
@@ -89,5 +90,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun showBottomNavMenu() {
         val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu)
         navView.visibility = View.VISIBLE
+    }
+
+    private fun initSendToShopButton() {
+        binding.buttonNext.setOnClickListener {
+            userViewModel.checkIfNameAndPhoneExist()
+            userViewModel.ifNameAndPhoneExist.observe(this) {
+                if (it == "nameAndPhoneDoNotExist") {
+                    binding.root.findNavController()
+                        .navigate(R.id.action_homeFragment_to_addUserInfoFragment)
+                }
+            }
+        }
     }
 }

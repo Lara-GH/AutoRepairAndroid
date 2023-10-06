@@ -18,6 +18,9 @@ open class UserViewModel : ViewModel() {
     private val mutableAccessLevel = MutableLiveData<String>()
     val accessLevel: LiveData<String> get() = mutableAccessLevel
 
+    private val mutableIfNameAndPhoneExist = MutableLiveData<String>()
+    val ifNameAndPhoneExist: LiveData<String> get() = mutableIfNameAndPhoneExist
+
     fun getUserCars() {
         repository.getUserCars(mutableGetUserCarsLiveData)
     }
@@ -42,5 +45,17 @@ open class UserViewModel : ViewModel() {
 
     fun createUser(){
         repository.createUser()
+    }
+
+    fun checkIfNameAndPhoneExist(){
+        repository.checkIfNameAndPhoneExist(mutableIfNameAndPhoneExist)
+    }
+
+    fun setUserName(name: String){
+        repository.setUserName(name)
+    }
+
+    fun setUserPhone(phone: String){
+        repository.setUserPhone(phone)
     }
 }

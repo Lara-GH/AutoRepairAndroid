@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_homeFragment_to_photoFragment"
             app:destination="@id/photoFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addUserInfoFragment"
+            app:destination="@id/addUserInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/carsFragment"
@@ -59,4 +62,9 @@
             android:id="@+id/action_photoFragment_to_homeFragment"
             app:popUpTo="@id/homeFragment"/>
     </fragment>
+    <fragment
+        android:id="@+id/addUserInfoFragment"
+        android:name="com.laragh.autorepair.user.adduserinfo.AddUserInfoFragment"
+        android:label="fragment_add_user_info"
+        tools:layout="@layout/fragment_add_user_info" />
 </navigation>

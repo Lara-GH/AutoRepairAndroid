@@ -5,4 +5,7 @@ object Constants {
     const val STORAGE_URL = "gs://autorepair-b4f91.appspot.com"
     const val PHOTOS = "photos"
     const val CARS = "cars"
+    const val TASKS = "tasks"
+    const val NAME = "name"
+    const val PHONE = "phone"
 }

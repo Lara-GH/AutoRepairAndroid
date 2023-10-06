@@ -6,19 +6,21 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.laragh.autorepair.user.models.Car
 import com.laragh.autorepair.utils.Constants.CARS
+import com.laragh.autorepair.utils.Constants.NAME
+import com.laragh.autorepair.utils.Constants.PHONE
 import com.laragh.autorepair.utils.Constants.USER
 
 class UserRepository {
 
     private val userID = FirebaseAuth.getInstance().currentUser!!.uid
-    private val ref = Firebase.database.reference.child(USER).child(userID)
+    private val refUser = Firebase.database.reference.child(USER).child(userID)
 
     fun createUser() {
-        ref.child("isUser").setValue(true)
+        refUser.child("isUser").setValue(true)
     }
 
     fun getUserCars(liveData: MutableLiveData<List<Car>>) {
-        ref.child(CARS).get().addOnSuccessListener {
+        refUser.child(CARS).get().addOnSuccessListener {
             val list = mutableListOf<Car>()
             if (it.exists()) {
                 for (snapshot in it.children) {
@@ -33,18 +35,18 @@ class UserRepository {
     }
 
     fun addCar(car: Car, liveData: MutableLiveData<List<Car>>) {
-        val newRef = ref.child(CARS).push()
+        val newRef = refUser.child(CARS).push()
         car.id = newRef.key.toString()
         newRef.setValue(car)
         getUserCars(liveData)
     }
 
     fun addedPhoto(addedPhotos: Boolean, carID: String) {
-        ref.child(CARS).child(carID).child("addedPhotos").setValue(addedPhotos)
+        refUser.child(CARS).child(carID).child("addedPhotos").setValue(addedPhotos)
     }
 
     fun checkUserAccessLevel(liveData: MutableLiveData<String>) {
-        ref.get().addOnSuccessListener {
+        refUser.get().addOnSuccessListener {
             if (it.exists()) {
                 if (it.child("isAdmin").exists()) {
                     liveData.postValue("admin")
@@ -53,5 +55,27 @@ class UserRepository {
                 } else liveData.postValue("user")
             }
         }
+    }
+
+    fun checkIfNameAndPhoneExist(liveData: MutableLiveData<String>) {
+        refUser.get().addOnSuccessListener {
+            if (it.exists()) {
+                if (it.child("name").exists()) {
+                    if (it.child("phone").exists()) {
+                        liveData.postValue("nameAndPhoneExist")
+                    } else liveData.postValue("nameExist")
+                } else if (it.child("phone").exists()) {
+                    liveData.postValue("phoneExist")
+                } else liveData.postValue("nameAndPhoneDoNotExist")
+            }
+        }
+    }
+
+    fun setUserName(name: String){
+        refUser.child(NAME).setValue(name)
+    }
+
+    fun setUserPhone(phone: String){
+        refUser.child(PHONE).setValue(phone)
     }
 }
