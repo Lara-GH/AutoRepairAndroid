@@ -8,4 +8,4 @@ The application is developed using:
 - Coroutines
 - Glide
 
-![Screenshot](https://github.com/Lara-GH/AutoRepair/blob/master/screenshots.png)
+![Screenshot](https://github.com/Lara-GH/AutoRepairAndroid/blob/master/screenshots.png)
